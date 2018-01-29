@@ -29,4 +29,11 @@ describe Oystercard do
       end
     end
   end
+
+  describe "#deduct" do
+    it "deducts fare from the oyster card" do
+      fare_amount = 5
+      expect{subject.deduct(fare_amount)}.to change{subject.balance}.by(-fare_amount)
+    end
+  end
 end
