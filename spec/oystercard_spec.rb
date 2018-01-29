@@ -36,4 +36,12 @@ describe Oystercard do
       expect{subject.deduct(fare_amount)}.to change{subject.balance}.by(-fare_amount)
     end
   end
+
+  describe "#in_journey" do
+    it "returns whether or not the card is in journey" do
+      expect(subject.in_journey?).to eq(true).or eq(false)
+    end
+  end
+
+  describe "#touch_in" do
 end
