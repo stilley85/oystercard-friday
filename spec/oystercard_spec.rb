@@ -17,15 +17,15 @@ describe Oystercard do
 
   describe "#top_up" do
     it "tops up the oyster card" do
-      top_up_amount = 10
-      expect{ oystercard.top_up(top_up_amount)}.to change{oystercard.balance}.by(top_up_amount)
+      amount = 10
+      expect{ oystercard.top_up(amount)}.to change{oystercard.balance}.by(amount)
     end
 
     context "when balance exceeds maximum limit" do
       it "raises 'Maximum balance exceeded' error" do
         error_message = "Maximum balance of #{Oystercard::DEFAULT_LIMIT} exceeded"
-        top_up_amount = Oystercard::DEFAULT_LIMIT - oystercard.balance + 1
-        expect{ oystercard.top_up(top_up_amount) }.to raise_error error_message
+        amount = Oystercard::DEFAULT_LIMIT - oystercard.balance + 1
+        expect{ oystercard.top_up(amount) }.to raise_error error_message
       end
     end
   end
@@ -44,9 +44,18 @@ describe Oystercard do
   end
 
   describe "#touch_in" do
-    it "starts journey" do
+
+    it "raises an error if minimum balance is not met" do
+        error_message = "Minimum balance not met"
+        expect { oystercard.touch_in }.to raise_error error_message
+      end
+    end
+
+    it "starts journey if there is enough money on the card" do
+      oystercard.top_up(Oystercard::MINIMUM_BALANCE)
       expect{oystercard.touch_in}.to change{oystercard.in_journey?}.from(false).to(true)
     end
+
   end
 
   describe "#touch_out" do
