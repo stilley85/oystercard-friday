@@ -4,9 +4,9 @@ describe Oystercard do
   subject(:oystercard) {described_class.new}
 
   context "when new oystercard is initialized with argument" do
-    subject(:oystercard) { described_class.new(20) }
+    let(:oystercard20) { described_class.new(20) }
     it "has balance given" do
-      expect(oystercard.balance).to eq 20
+      expect(oystercard20.balance).to eq 20
     end
   end
 
@@ -17,22 +17,21 @@ describe Oystercard do
   end
 
   context "when oystercard has minimum balance or more" do
+    before(:each){oystercard.top_up(Oystercard::MINIMUM_BALANCE)}
+
     describe "#touch_in" do
       it "starts journey" do
-        oystercard.top_up(Oystercard::MINIMUM_BALANCE)
         expect{oystercard.touch_in}.to change{oystercard.in_journey?}.from(false).to(true)
       end
     end
 
     describe "#touch_out" do
       it "ends journey" do
-        oystercard.top_up(Oystercard::MINIMUM_BALANCE)
         oystercard.touch_in
         expect{oystercard.touch_out}.to change{oystercard.in_journey?}.from(true).to(false)
       end
 
       it "deducts fare from the card balance" do
-        oystercard.top_up(Oystercard::MINIMUM_BALANCE)
         oystercard.touch_in
         expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
       end
