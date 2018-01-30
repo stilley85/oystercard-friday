@@ -15,30 +15,41 @@ describe Oystercard do
     it "has default balance" do
     expect(oystercard.balance).to eq Oystercard::DEFAULT_BALANCE
     end
+
+    it "has empty journey history" do
+      expect(oystercard.journey_history).to eq []
+    end
+
+    it "has hash of entry and exit stations" do
+      expect(oystercard.current_journey).to be_a(Hash)
+    end
   end
 
   context "when oystercard has minimum balance or more" do
     before(:each){oystercard.top_up(Oystercard::MINIMUM_BALANCE)}
 
     describe "#touch_in" do
-
       it "stores entry station" do
-        oystercard.touch_in("Victoria")
-        expect(oystercard.entry_station).to eq("Victoria")
+        oystercard.touch_in(station)
+        expect(oystercard.entry_station).to eq station
       end
-
     end
 
     describe "#touch_out" do
       before(:each){oystercard.touch_in(station)}
 
       it "deducts fare from the card balance" do
-        expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
+        expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
       end
 
       it "sets entry station to nil" do
-        oystercard.touch_out
+        oystercard.touch_out(station)
         expect(oystercard.entry_station).to eq nil
+      end
+
+      it "stores exit station" do
+        oystercard.touch_out(station)
+        expect(oystercard.exit_station).to eq station
       end
     end
   end
@@ -73,7 +84,7 @@ describe Oystercard do
     describe "#touch_out" do
     it "raises error if card hasn't been touched in" do
       error_message = "Not yet in journey"
-      expect { oystercard.touch_out }.to raise_error error_message
+      expect { oystercard.touch_out(station) }.to raise_error error_message
     end
   end
 end
