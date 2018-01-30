@@ -44,24 +44,27 @@ describe Oystercard do
   end
 
   describe "#touch_in" do
-
     it "raises an error if minimum balance is not met" do
         error_message = "Minimum balance not met"
         expect { oystercard.touch_in }.to raise_error error_message
       end
-    end
 
     it "starts journey if there is enough money on the card" do
       oystercard.top_up(Oystercard::MINIMUM_BALANCE)
       expect{oystercard.touch_in}.to change{oystercard.in_journey?}.from(false).to(true)
     end
-
   end
 
   describe "#touch_out" do
     it "ends journey" do
+      oystercard.top_up(Oystercard::MINIMUM_BALANCE)
       oystercard.touch_in
       expect{oystercard.touch_out}.to change{oystercard.in_journey?}.from(true).to(false)
+    end
+
+    it "raises error if in_journey is false" do
+      error_message = "Not yet in journey"
+      expect { oystercard.touch_out }.to raise_error error_message
     end
   end
 end

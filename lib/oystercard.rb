@@ -24,11 +24,12 @@ class Oystercard
   end
 
   def touch_in
-    raise "Minimum balance not met" if @balance <= MINIMUM_BALANCE
+    raise "Minimum balance not met" if @balance < MINIMUM_BALANCE
     @in_journey = true
   end
 
   def touch_out
+    raise "Not yet in journey" if @in_journey == false
     @in_journey = false
   end
 
