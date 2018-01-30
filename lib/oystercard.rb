@@ -15,10 +15,6 @@ class Oystercard
     @balance += amount
   end
 
-  def deduct(fare)
-    @balance -= fare
-  end
-
   def in_journey?
     @in_journey
   end
@@ -31,6 +27,7 @@ class Oystercard
   def touch_out
     raise "Not yet in journey" if @in_journey == false
     @in_journey = false
+    deduct(MINIMUM_BALANCE)
   end
 
   private
@@ -38,4 +35,13 @@ class Oystercard
   def limit_reached?(amount)
     (@balance + amount) > DEFAULT_LIMIT
   end
+
+  def deduct(fare)
+    @balance -= fare
+  end
+
+
 end
+
+
+#we want money to deduct from card on touch out

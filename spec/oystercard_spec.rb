@@ -30,13 +30,6 @@ describe Oystercard do
     end
   end
 
-  describe "#deduct" do
-    it "deducts fare from the oyster card" do
-      fare_amount = 5
-      expect{oystercard.deduct(fare_amount)}.to change{oystercard.balance}.by(-fare_amount)
-    end
-  end
-
   describe "#in_journey" do
     it "returns whether or not the card is in journey" do
       expect(oystercard.in_journey?).to eq(true).or eq(false)
@@ -66,5 +59,12 @@ describe Oystercard do
       error_message = "Not yet in journey"
       expect { oystercard.touch_out }.to raise_error error_message
     end
+
+    it "deducts fare from the card balance" do
+      oystercard.top_up(Oystercard::MINIMUM_BALANCE)
+      oystercard.touch_in
+      expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
+    end
+
   end
 end
