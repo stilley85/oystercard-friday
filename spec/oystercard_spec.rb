@@ -27,8 +27,8 @@ describe Oystercard do
 
       it "stores entry station" do
         oystercard.touch_in(station)
-        expect (oystercard.entry_station).to eq(station)
-        # expect oystercard.touch in to store the entry station
+        allow(:station).to receive (:eq) {station}
+        expect (oystercard.entry_station).to eq (station)
       end
 
     end

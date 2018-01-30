@@ -3,7 +3,7 @@ class Oystercard
   DEFAULT_BALANCE = 0
   MINIMUM_BALANCE = 1
   DEFAULT_LIMIT = 90
-  attr_reader :balance
+  attr_reader :balance, :entry_station
 
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
@@ -40,9 +40,4 @@ class Oystercard
   def deduct(fare)
     @balance -= fare
   end
-
-
 end
-
-
-#we want money to deduct from card on touch out
