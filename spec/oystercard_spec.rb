@@ -2,6 +2,7 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:oystercard) {described_class.new}
+  let(:station) {double('station')}
 
   context "when new oystercard is initialized with argument" do
     let(:oystercard20) { described_class.new(20) }
@@ -21,18 +22,25 @@ describe Oystercard do
 
     describe "#touch_in" do
       it "starts journey" do
-        expect{oystercard.touch_in}.to change{oystercard.in_journey?}.from(false).to(true)
+        expect{oystercard.touch_in(station)}.to change{oystercard.in_journey?}.from(false).to(true)
       end
+
+      it "stores entry station" do
+        oystercard.touch_in(station)
+        expect (oystercard.entry_station).to eq(station)
+        # expect oystercard.touch in to store the entry station
+      end
+
     end
 
     describe "#touch_out" do
       it "ends journey" do
-        oystercard.touch_in
+        oystercard.touch_in(station)
         expect{oystercard.touch_out}.to change{oystercard.in_journey?}.from(true).to(false)
       end
 
       it "deducts fare from the card balance" do
-        oystercard.touch_in
+        oystercard.touch_in(station)
         expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
       end
     end
@@ -42,7 +50,7 @@ describe Oystercard do
     describe "#touch_in" do
       it "raises an error" do
         error_message = "Minimum balance not met"
-        expect { oystercard.touch_in }.to raise_error error_message
+        expect { oystercard.touch_in(station) }.to raise_error error_message
       end
     end
   end
