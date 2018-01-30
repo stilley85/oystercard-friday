@@ -26,9 +26,8 @@ describe Oystercard do
       end
 
       it "stores entry station" do
-        oystercard.touch_in(station)
-        allow(:station).to receive (:eq) {station}
-        expect (oystercard.entry_station).to eq (station)
+        oystercard.touch_in("Victoria")
+        expect(oystercard.entry_station).to eq("Victoria")
       end
 
     end
