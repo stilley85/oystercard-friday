@@ -42,6 +42,12 @@ describe Oystercard do
         oystercard.touch_in(station)
         expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
       end
+
+      it "sets entry station to nil" do
+        oystercard.touch_in(station)
+        oystercard.touch_out
+        expect(oystercard.entry_station).to eq nil
+      end
     end
   end
 

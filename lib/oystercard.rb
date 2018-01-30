@@ -29,6 +29,7 @@ class Oystercard
     raise "Not yet in journey" if @in_journey == false
     @in_journey = false
     deduct(MINIMUM_BALANCE)
+    @entry_station = nil
   end
 
   private
