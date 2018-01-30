@@ -21,9 +21,6 @@ describe Oystercard do
     before(:each){oystercard.top_up(Oystercard::MINIMUM_BALANCE)}
 
     describe "#touch_in" do
-      it "starts journey" do
-        expect{oystercard.touch_in(station)}.to change{oystercard.in_journey?}.from(false).to(true)
-      end
 
       it "stores entry station" do
         oystercard.touch_in("Victoria")
@@ -34,10 +31,6 @@ describe Oystercard do
 
     describe "#touch_out" do
       before(:each){oystercard.touch_in(station)}
-
-      it "ends journey" do
-        expect{oystercard.touch_out}.to change{oystercard.in_journey?}.from(true).to(false)
-      end
 
       it "deducts fare from the card balance" do
         expect{oystercard.touch_out}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
