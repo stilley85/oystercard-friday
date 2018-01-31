@@ -21,7 +21,7 @@ describe Oystercard do
     end
   end
 
-  context "when oystercard has minimum balance or more" do
+  context "when oystercard meets minimum balance" do
     before(:each){oystercard.top_up(Oystercard::MINIMUM_BALANCE)}
 
     describe "#touch_in" do
