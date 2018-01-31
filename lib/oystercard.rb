@@ -10,7 +10,6 @@ class Oystercard
     @entry_station = nil
     @exit_station = nil
     @journey_history = []
-    @current_journey = {@entry_station => @exit_station}
   end
 
   def top_up(amount)
@@ -25,14 +24,15 @@ class Oystercard
   def touch_in(station)
     raise "Minimum balance not met" if @balance < MINIMUM_BALANCE
     @entry_station = station
+    @entry_station
   end
 
   def touch_out(station)
     raise "Not yet in journey" unless in_journey?
     deduct(MINIMUM_BALANCE)
-    @entry_station = nil
     @exit_station = station
-    # create test for save_journey
+    save_journey
+    @entry_station = nil
   end
 
   private
@@ -46,6 +46,6 @@ class Oystercard
   end
 
   def save_journey
-    @journey_history.push(@current_journey)
+    @journey_history << {:entry_station => @entry_station, :exit_station => @exit_station}
   end
 end
