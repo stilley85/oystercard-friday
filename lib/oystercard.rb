@@ -1,6 +1,5 @@
 class Oystercard
-  # test
-  Hello
+  
   DEFAULT_BALANCE = 0
   MINIMUM_BALANCE = 1
   DEFAULT_LIMIT = 90
