@@ -43,14 +43,10 @@ describe Oystercard do
         expect(oystercard.entry_station).to eq nil
       end
 
-      it "stores exit station" do
-        oystercard.touch_out(station)
-        expect(oystercard.exit_station).to eq station
-      end
-
+      let(:journey) { {entry_station: station, exit_station: station }}
       it "stores current journey hash in array" do
         oystercard.touch_out(station)
-        expect(oystercard.journey_history).to include({:entry_station => station, :exit_station => station})
+        expect(oystercard.journey_history).to include(journey)
       end
     end
   end
