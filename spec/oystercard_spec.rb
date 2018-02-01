@@ -38,11 +38,6 @@ describe Oystercard do
         expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
       end
 
-      it "sets entry station to nil" do
-        oystercard.touch_out(station)
-        expect(oystercard.entry_station).to eq nil
-      end
-
       let(:journey) { {entry_station: station, exit_station: station }}
       it "stores current journey hash in array" do
         oystercard.touch_out(station)

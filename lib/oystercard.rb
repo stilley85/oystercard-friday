@@ -1,7 +1,6 @@
 require_relative "station"
 
 class Oystercard
-  CONSTANT = 100
   DEFAULT_BALANCE = 0
   MINIMUM_BALANCE = 1
   DEFAULT_LIMIT = 90
@@ -9,7 +8,6 @@ class Oystercard
 
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
-    reset_station
     @journey_history = []
   end
 
@@ -32,16 +30,9 @@ class Oystercard
     deduct(MINIMUM_BALANCE)
     @exit_station = station
     save_journey
-    reset_station
   end
 
   private
-
-  def reset_station
-    @entry_station = nil
-    @exit_station = nil
-
-  end
 
   def limit_reached?(amount)
     (@balance + amount) > DEFAULT_LIMIT
