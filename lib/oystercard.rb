@@ -1,7 +1,7 @@
 require_relative "station"
 
 class Oystercard
-
+  CONSTANT = 100
   DEFAULT_BALANCE = 0
   MINIMUM_BALANCE = 1
   DEFAULT_LIMIT = 90
