@@ -25,10 +25,10 @@ describe Oystercard do
     before(:each){oystercard.top_up(Oystercard::MINIMUM_BALANCE)}
 
     describe "#touch_in" do
-      it "stores entry station" do
-        oystercard.touch_in(station)
-        expect(oystercard.entry_station).to eq station
-      end
+      # it "stores entry station" do
+      #   oystercard.touch_in(station)
+      #   expect(oystercard.entry_station).to eq station
+      # end
     end
 
     describe "#touch_out" do
@@ -68,9 +68,9 @@ describe Oystercard do
   end
 
   describe "#in_journey" do
-    it "returns whether or not the card is in journey" do
-      expect(oystercard.in_journey?).to eq(true).or eq(false)
-    end
+    # it "returns whether or not the card is in journey" do
+    #   expect(oystercard.in_journey?).to eq(true).or eq(false)
+    # end
   end
 
     describe "#touch_out" do

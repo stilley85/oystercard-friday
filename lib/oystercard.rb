@@ -16,9 +16,9 @@ class Oystercard
     @balance += amount
   end
 
-  def in_journey?
-    !!@entry_station
-  end
+  # def in_journey?
+  #   !!@entry_station
+  # end
 
   def touch_in(station)
     raise "Minimum balance not met" if @balance < MINIMUM_BALANCE
