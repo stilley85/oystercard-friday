@@ -29,7 +29,8 @@ describe Journey do
   describe '#finish' do
     it 'sets an exit station' do
       journey.start(entry_station)
-      expect(journey.finish(exit_station)).to eq exit_station
+      journey.finish(exit_station)
+      expect(journey.exit_station).to eq exit_station
     end
   end
 
@@ -42,7 +43,4 @@ describe Journey do
       end
     end
   end
-
-
-
 end

@@ -4,7 +4,7 @@ describe Oystercard do
   subject(:oystercard) {described_class.new}
   let(:exit_station) {double('exit station')}
   let(:entry_station) {double('entry station')}
-  let(:journey) {double('journey')}
+  # let(:journey) {double('journey')}
 
   context "when new oystercard is initialized with argument" do
     let(:oystercard20) { described_class.new(20) }
@@ -36,13 +36,15 @@ describe Oystercard do
       before(:each){oystercard.touch_in(entry_station)}
 
       it "deducts fare from the card balance" do
+        oystercard.touch_in(entry_station)
         expect{oystercard.touch_out(exit_station)}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
       end
 
-      let(:journey) { {entry_station: entry_station, exit_station: exit_station }}
+      let(:current_journey) { {entry_station: entry_station, exit_station: exit_station }}
       it "stores current journey hash in array" do
+        oystercard.touch_in(entry_station)
         oystercard.touch_out(exit_station)
-        expect(oystercard.journey_history).to include(journey)
+        expect(oystercard.journey_history).to include(current_journey)
       end
     end
   end
@@ -66,12 +68,6 @@ describe Oystercard do
       amount = Oystercard::DEFAULT_LIMIT - oystercard.balance + 1
       expect{ oystercard.top_up(amount) }.to raise_error error_message
     end
-  end
-
-  describe "#in_journey" do
-    # it "returns whether or not the card is in journey" do
-    #   expect(oystercard.in_journey?).to eq(true).or eq(false)
-    # end
   end
 
     describe "#touch_out" do

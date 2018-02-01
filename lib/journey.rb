@@ -1,6 +1,6 @@
 class Journey
 
-  attr_reader :entry_station, :exit_station
+  attr_reader :entry_station, :exit_station, :in_journey
 
   def initialize
     @entry_station = nil
@@ -21,6 +21,10 @@ class Journey
     @complete
   end
 
+  def current_journey
+    {:entry_station => @entry_station, :exit_station => @exit_station}
+  end
+
 private
 
   def change_complete_status
@@ -28,10 +32,6 @@ private
       @complete = true
     end
   end
-
-
-# entry station has been called
-
 
 
 end
