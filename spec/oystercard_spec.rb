@@ -2,7 +2,9 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:oystercard) {described_class.new}
-  let(:station) {double('station')}
+  let(:exit_station) {double('exit station')}
+  let(:entry_station) {double('entry station')}
+  let(:journey) {double('journey')}
 
   context "when new oystercard is initialized with argument" do
     let(:oystercard20) { described_class.new(20) }
@@ -25,22 +27,21 @@ describe Oystercard do
     before(:each){oystercard.top_up(Oystercard::MINIMUM_BALANCE)}
 
     describe "#touch_in" do
-      # it "stores entry station" do
-      #   oystercard.touch_in(station)
-      #   expect(oystercard.entry_station).to eq station
-      # end
+      it "sets entry station using new instance of journey" do
+        expect(oystercard.touch_in(entry_station)).to eq entry_station
+      end
     end
 
     describe "#touch_out" do
-      before(:each){oystercard.touch_in(station)}
+      before(:each){oystercard.touch_in(entry_station)}
 
       it "deducts fare from the card balance" do
-        expect{oystercard.touch_out(station)}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
+        expect{oystercard.touch_out(exit_station)}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
       end
 
-      let(:journey) { {entry_station: station, exit_station: station }}
+      let(:journey) { {entry_station: entry_station, exit_station: exit_station }}
       it "stores current journey hash in array" do
-        oystercard.touch_out(station)
+        oystercard.touch_out(exit_station)
         expect(oystercard.journey_history).to include(journey)
       end
     end
@@ -50,7 +51,7 @@ describe Oystercard do
     describe "#touch_in" do
       it "raises an error" do
         error_message = "Minimum balance not met"
-        expect { oystercard.touch_in(station) }.to raise_error error_message
+        expect { oystercard.touch_in(entry_station) }.to raise_error error_message
       end
     end
   end
@@ -76,7 +77,7 @@ describe Oystercard do
     describe "#touch_out" do
     it "raises error if card hasn't been touched in" do
       error_message = "Not yet in journey"
-      expect { oystercard.touch_out(station) }.to raise_error error_message
+      expect { oystercard.touch_out(exit_station) }.to raise_error error_message
     end
   end
 end
