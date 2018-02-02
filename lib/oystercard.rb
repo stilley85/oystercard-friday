@@ -28,10 +28,10 @@ class Oystercard
 
   def touch_out(exit_station)
     raise "Not yet in journey" if @journey == nil
-    deduct(MINIMUM_BALANCE)
     @journey.finish(exit_station)
     # @exit_station = exit_station
     save_journey
+    deduct(@journey.fare)
   end
 
   private
