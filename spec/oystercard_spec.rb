@@ -30,6 +30,20 @@ describe Oystercard do
       it "sets entry station using new instance of journey" do
         expect(oystercard.touch_in(entry_station)).to eq entry_station
       end
+
+      it "adds current journey to journey history if touched in but not out" do
+        oystercard.touch_in(entry_station)
+        oystercard.touch_in(entry_station)
+        expect(oystercard.journey_history).not_to eq nil
+      end
+
+      it "deducts the penalty fare if touch in again without touching out" do
+        oystercard.top_up(50)
+        oystercard.touch_in(entry_station)
+        oystercard.touch_in(entry_station)
+        expect{oystercard.touch_in(entry_station)}.to change{ oystercard.balance}.by(-6)
+      end
+
     end
 
     describe "#touch_out" do
@@ -67,13 +81,6 @@ describe Oystercard do
       error_message = "Maximum balance of #{Oystercard::DEFAULT_LIMIT} exceeded"
       amount = Oystercard::DEFAULT_LIMIT - oystercard.balance + 1
       expect{ oystercard.top_up(amount) }.to raise_error error_message
-    end
-  end
-
-    describe "#touch_out" do
-    it "raises error if card hasn't been touched in" do
-      error_message = "Not yet in journey"
-      expect { oystercard.touch_out(exit_station) }.to raise_error error_message
     end
   end
 end

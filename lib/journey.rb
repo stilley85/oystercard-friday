@@ -39,6 +39,8 @@ private
   def change_complete_status
     if !!entry_station && !!exit_station
       @complete = true
+    else
+      @complete = false
     end
   end
 

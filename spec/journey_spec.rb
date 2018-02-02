@@ -44,19 +44,19 @@ describe Journey do
     end
 
     describe '#fare' do
-   
+
     it 'charges minimum fare if a journey has been completed' do
       journey.start(entry_station)
       journey.finish(exit_station)
-      expect(journey.fare).to eq Journey::MINIMUM_FARE  
+      expect(journey.fare).to eq Journey::MINIMUM_FARE
       end
 
-    it 'charges a penalty fare if journey incomplete ' do
-      journey.start(entry_station)
-      journey.finish(exit_station)
-      journey.finish(exit_station)
-      expect(journey.fare).to eq Journey::PENALTY_FARE  
-      end
+    # it 'charges a penalty fare if journey incomplete ' do
+    #   journey.start(entry_station)
+    #   journey.finish(exit_station)
+    #   journey.finish(exit_station)
+    #   expect(journey.fare).to eq Journey::PENALTY_FARE
+    #   end
     end
 
 

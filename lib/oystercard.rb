@@ -11,6 +11,7 @@ class Oystercard
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
     @journey_history = []
+    @journey = Journey.new
   end
 
   def top_up(amount)
@@ -20,6 +21,10 @@ class Oystercard
 
   def touch_in(entry_station)
     raise "Minimum balance not met" if @balance < MINIMUM_BALANCE
+    if @journey.entry_station != nil && @journey.exit_station == nil
+      @journey_history << @journey
+      deduct(@journey.fare)
+    end
     @journey = Journey.new
     @journey.start(entry_station)
     # return value of line 23 is entry_station
