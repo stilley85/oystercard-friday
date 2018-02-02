@@ -64,10 +64,6 @@ describe Oystercard do
         expect{oystercard.touch_out(exit_station)}.to change{ oystercard.balance}.by(-6)
       end
 
-
-
-
-
     end
   end
 
