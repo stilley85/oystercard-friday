@@ -18,8 +18,6 @@ class Journey
   def finish(exit_station)
     @exit_station = exit_station
     change_complete_status
-    # REGARDLESS OF WHWETHER WE'VE TOUCHED IN, WE CHANGE THE
-    # STATUS TO COMPLETE
   end
 
   def complete?
@@ -37,12 +35,6 @@ class Journey
 private
 
   def change_complete_status
-    if !!entry_station && !!exit_station
-      @complete = true
-    else
-      @complete = false
-    end
+   !!entry_station && !!exit_station ? @complete = true : @complete = false
   end
-
-
 end

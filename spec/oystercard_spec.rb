@@ -47,7 +47,6 @@ describe Oystercard do
     end
 
     describe "#touch_out" do
-      before(:each){oystercard.touch_in(entry_station)}
 
       it "deducts fare from the card balance" do
         oystercard.touch_in(entry_station)
@@ -60,6 +59,15 @@ describe Oystercard do
         oystercard.touch_out(exit_station)
         expect(oystercard.journey_history).to include(current_journey)
       end
+
+      it 'deducts the penalty fare if card touched out but not in' do
+        expect{oystercard.touch_out(exit_station)}.to change{ oystercard.balance}.by(-6)
+      end
+
+
+
+
+
     end
   end
 
