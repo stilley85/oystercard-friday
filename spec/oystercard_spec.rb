@@ -2,8 +2,8 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:oystercard) {described_class.new}
-  let(:exit_station) {double('exit station')}
-  let(:entry_station) {double('entry station')}
+  let(:exit_station) {double('exit station', zone: 3)}
+  let(:entry_station) {double('entry station', zone: 1)}
   # let(:journey) {double('journey')}
 
   context "when new oystercard is initialized with argument" do
@@ -50,7 +50,7 @@ describe Oystercard do
 
       it "deducts fare from the card balance" do
         oystercard.touch_in(entry_station)
-        expect{oystercard.touch_out(exit_station)}.to change{oystercard.balance}.by(-Oystercard::MINIMUM_BALANCE)
+        expect{oystercard.touch_out(exit_station)}.to change{oystercard.balance}.by(-3)
       end
 
       let(:current_journey) { {entry_station: entry_station, exit_station: exit_station }}

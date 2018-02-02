@@ -3,8 +3,10 @@ require 'journey'
 describe Journey do
 
   subject(:journey) {described_class.new}
-  let(:entry_station) {double('entry station')}
-  let(:exit_station) {double('exit_station')}
+  let(:entry_station_same_zone) {double('entry station', zone: 1)}
+  let(:exit_station_same_zone) {double('exit_station', zone: 1)}
+  let(:entry_station) {double('entry station', zone: 1)}
+  let(:exit_station) {double('exit_station', zone: 3)}
 
   context 'when initialized' do
     it "registers an entry station" do
@@ -45,11 +47,18 @@ describe Journey do
 
     describe '#fare' do
 
-    it 'charges minimum fare if a journey has been completed' do
-      journey.start(entry_station)
-      journey.finish(exit_station)
+    it 'charges minimum fare if a journey has been completed within same zone' do
+      journey.start(entry_station_same_zone)
+      journey.finish(exit_station_same_zone)
       expect(journey.fare).to eq Journey::MINIMUM_FARE
       end
+
+      it 'charges calculated if a journey has been completed within different zone' do
+
+        journey.start(entry_station)
+        journey.finish(exit_station)
+        expect(journey.fare).to eq 3
+        end
 
     # it 'charges a penalty fare if journey incomplete ' do
     #   journey.start(entry_station)
