@@ -55,10 +55,12 @@ class Oystercard
   end
 
   def touched_in_but_not_out
-    if @journey.entry_station != nil && @journey.exit_station == nil
-      @journey_history << @journey.current_journey
-      deduct(@journey.fare)
-    end
+    end_incomplete_journey if @journey.entry_station != nil && @journey.exit_station == nil
+  end
+
+  def end_incomplete_journey
+    @journey_history << @journey.current_journey
+    deduct(@journey.fare)
   end
 
 end
